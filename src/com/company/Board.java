@@ -13,11 +13,12 @@ public class Board {
     Boolean[][] isFieldEmpty = new Boolean[SIZE][SIZE];
 
     //We randomize the number of initial objects
+    Random R_nbOfEnemies = new Random();
     Random R_nbOfObstacles = new Random();
-
+    int nbOfEnemies = R_nbOfEnemies.nextInt((SIZE - 2) + 1) + 2; // we get maximum half of the board filled with animals and min. 2
     int nbOfObstacles = R_nbOfObstacles.nextInt(SIZE); //we get maximum half of the board filled with obstacles
 
-
+    ArrayList<Enemy> m_enemies = new ArrayList<>(nbOfEnemies); //we keep track of all our animals
     ArrayList<Obstacle> m_obstacles = new ArrayList<>(nbOfObstacles);
 
 
@@ -49,7 +50,23 @@ public class Board {
     //We put randoms numbers of obstacles and animals on the board
     void fillBoardAtTheStart(){
 
-       //add player
+        for(int i = 0; i < this.nbOfEnemies; i++){
+            Enemy a = new Enemy();
+
+            //we randomize the position of our animal
+            Random R_line = new Random();
+            Random R_column = new Random();
+
+            //we put the animal on the board
+            int x = R_line.nextInt(SIZE);
+            int y = R_column.nextInt(SIZE);
+            this.m_2DBoard[x][y] = a.getSign();
+
+            //we keep track of this animal's position
+            a.setPosition(new Point(x,y));
+
+            this.m_enemies.add(a);
+        }
 
         for(int i = 0; i < this.nbOfObstacles; i++){
             Obstacle o = new Obstacle();
@@ -73,7 +90,7 @@ public class Board {
         if(!Objects.equals(this.m_2DBoard[pos.x][pos.y], "_")){ //if the position is occupied
             if(Objects.equals(this.m_2DBoard[pos.x][pos.y], "X")){ //if it's an obstacle
                 return 2;
-            } else if(Objects.equals(this.m_2DBoard[pos.x][pos.y], "*")){ //if it's an animal
+            } else if(Objects.equals(this.m_2DBoard[pos.x][pos.y], "*")){ //if it's an enemy
                 return 3;
             }
         }else{
@@ -81,6 +98,28 @@ public class Board {
         }
         return 0;
     }
+
+    void moveEnemies(){ //equivalent to moveAnimals
+
+
+    }
+
+    Integer checkNumberOfEnemies(){
+        int EnemiesLeft = 0;
+        //we go through our board
+        for (String[] strings : m_2DBoard) {
+            for (int j = 0; j < m_2DBoard.length; j++) {
+                if (Objects.equals(strings[j], "*")) { //if there is an animal
+                    EnemiesLeft++; //we increase our number of animals left
+                }
+            }
+        }
+
+        return EnemiesLeft;
+    }
+
+
+
 
 }
 

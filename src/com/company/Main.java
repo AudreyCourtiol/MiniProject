@@ -8,6 +8,6 @@ public class Main {
         System.out.println("The game has been initialized.");
         board.fillBoardAtTheStart();
         board.displayBoard();
-        
+
     }
 }
