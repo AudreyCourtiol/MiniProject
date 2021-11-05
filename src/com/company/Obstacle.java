@@ -7,7 +7,7 @@ public class Obstacle {
     Point position = new Point();
 
     public Obstacle(){
-        this.sign = "X";
+        this.sign = "#";
     }
 
     String getSign(){return this.sign; }

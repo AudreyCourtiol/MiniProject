@@ -8,7 +8,7 @@ public class Enemy {
     Player player = new Player(); //so the enemies have their position
 
     public Enemy(){
-        this.sign = "*";
+        this.sign = "X";
     }
 
     String getSign(){return this.sign; }

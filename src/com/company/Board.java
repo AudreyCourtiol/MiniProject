@@ -8,7 +8,7 @@ import java.util.Random;
 
 
 public class Board {
-    final int SIZE = 8;
+    final int SIZE = 12;
     String[][] m_2DBoard = new String[SIZE][SIZE];
     Boolean[][] isFieldEmpty = new Boolean[SIZE][SIZE];
 
@@ -23,10 +23,15 @@ public class Board {
 
 
     public Board(){
-        //We create a board with 8x8 fields
+        //We create a board with 10x10 fields
         for (int i = 0; i < this.SIZE; i++){
             for(int j = 0; j < this.SIZE; j++){
-                m_2DBoard[i][j] = "_";
+                //If it's a border, we put a star
+                if(j == 0 || i == 0 || j == this.SIZE -1 || i == this.SIZE -1){
+                    m_2DBoard[i][j] = "*";
+                } else { //else we just put a space
+                    m_2DBoard[i][j] = " ";
+                }
             }
         }
         //We set every field as empty at the creation of the board
@@ -47,22 +52,22 @@ public class Board {
         }
     }
 
-    //We put randoms numbers of obstacles and animals on the board
+    //We put randoms numbers of obstacles and enemies on the board
     void fillBoardAtTheStart(){
 
         for(int i = 0; i < this.nbOfEnemies; i++){
             Enemy a = new Enemy();
 
-            //we randomize the position of our animal
+            //we randomize the position of our enemy
             Random R_line = new Random();
             Random R_column = new Random();
 
-            //we put the animal on the board
+            //we put the enemy on the board
             int x = R_line.nextInt(SIZE);
             int y = R_column.nextInt(SIZE);
             this.m_2DBoard[x][y] = a.getSign();
 
-            //we keep track of this animal's position
+            //we keep track of this enemy's position
             a.setPosition(new Point(x,y));
 
             this.m_enemies.add(a);
@@ -76,7 +81,7 @@ public class Board {
             Random R_column = new Random();
 
             //we put the obstacle on the board
-            //if this position is taken by an animal, the animal dies and the obstacle takes its place
+            //if this position is taken by an enemy, the enemy dies and the obstacle takes its place
             int x = R_line.nextInt(SIZE);
             int y = R_column.nextInt(SIZE);
             this.m_2DBoard[x][y] = o.getSign();
@@ -93,10 +98,10 @@ public class Board {
             } else if(Objects.equals(this.m_2DBoard[pos.x][pos.y], "*")){ //if it's an enemy
                 return 3;
             }
-        }else{
+        }else{ //else if it's empty
             return 1;
         }
-        return 0;
+        return 0; //there is an issue -> prepare an error message
     }
 
     void moveEnemies(){ //equivalent to moveAnimals
@@ -104,7 +109,7 @@ public class Board {
 
     }
 
-    Integer checkNumberOfEnemies(){
+    Integer checkNumberOfEnemies(){ //The game ends if there are no more enemies
         int EnemiesLeft = 0;
         //we go through our board
         for (String[] strings : m_2DBoard) {
@@ -114,8 +119,14 @@ public class Board {
                 }
             }
         }
-
         return EnemiesLeft;
+    }
+
+    void playGame(){
+        int EnemiesLeft = this.checkNumberOfEnemies();
+        if(EnemiesLeft == 0){
+            System.out.println("The game is over, you killed all the enemies. Congratulations!");
+        }
     }
 
 
