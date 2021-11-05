@@ -8,6 +8,7 @@ import java.util.Random;
 
 
 public class Board {
+    Player player= new Player();
     final int SIZE = 12;
     String[][] m_2DBoard = new String[SIZE][SIZE];
     Boolean[][] isFieldEmpty = new Boolean[SIZE][SIZE];
@@ -54,6 +55,13 @@ public class Board {
 
     //We put randoms numbers of obstacles and enemies on the board
     void fillBoardAtTheStart(){
+        Random R_start_x = new Random();
+        Random R_start_y = new Random();
+        //we put the enemy on the board
+        int x1 = R_start_x.nextInt(SIZE);
+        int y1 = R_start_y.nextInt(SIZE);
+        this.m_2DBoard[x1][y1] = this.player.getSign();
+        this.player.setPosition(new Point(x1,y1));
 
         for(int i = 0; i < this.nbOfEnemies; i++){
             Enemy a = new Enemy();
@@ -128,9 +136,5 @@ public class Board {
             System.out.println("The game is over, you killed all the enemies. Congratulations!");
         }
     }
-
-
-
-
 }
 
