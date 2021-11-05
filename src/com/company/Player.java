@@ -32,16 +32,16 @@ public class Player {
         input= in.nextLine();
 
         switch (input){
-            case "w":    //up
+            case "d":    //right
                 this.setPosition(new Point((int) this.getPosition().getX(), (int) this.getPosition().getY()+1));
                 break;
-            case "s":    //down
+            case "a":    //left
                 this.setPosition(new Point((int) this.getPosition().getX(), (int) this.getPosition().getY()-1));
                 break;
-            case "d":    //right
+            case "s":    //down
                 this.setPosition(new Point((int) this.getPosition().getX()+1, (int) this.getPosition().getY()));
                 break;
-            case "a":    //left
+            case "w":    //up
                 this.setPosition(new Point((int) this.getPosition().getX()-1, (int) this.getPosition().getY()));
                 break;
 

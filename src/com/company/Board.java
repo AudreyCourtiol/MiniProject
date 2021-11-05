@@ -131,12 +131,23 @@ public class Board {
         return EnemiesLeft;
     }
 
+    void MovesP(){
+        Point oldP= this.player.getPosition();
+        try {
+            this.player.movePlayer();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.m_2DBoard[oldP.x][oldP.y]="";
+        this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= this.player.sign;
+    }
+
     void playGame() throws IOException {
         int EnemiesLeft = this.checkNumberOfEnemies();
         boolean isGameOver=false;
         while (isGameOver == false){
             //System.out.println(isGameOver);
-            player.movePlayer();
+            MovesP();
             displayBoard();
             if(EnemiesLeft == 0){
                 System.out.println("The game is over, you killed all the enemies. Congratulations!");
