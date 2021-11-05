@@ -37,8 +37,8 @@ public class Board {
             }
         }
         //We set every field as empty at the creation of the board
-        for(int j = 0; j < this.SIZE; j++){
-            for(int k = 0; k < this.SIZE; k++){
+        for(int j = 0; j < this.SIZE-1; j++){
+            for(int k = 0; k < this.SIZE-1; k++){
                 this.isFieldEmpty[j][k] = false;
             }
         }
@@ -59,8 +59,8 @@ public class Board {
         Random R_start_x = new Random();
         Random R_start_y = new Random();
         //we put the enemy on the board
-        int x1 = R_start_x.nextInt(SIZE);
-        int y1 = R_start_y.nextInt(SIZE);
+        int x1 = R_start_x.nextInt(SIZE - 2) + 1;
+        int y1 = R_start_y.nextInt(SIZE - 2) + 1;
         this.m_2DBoard[x1][y1] = this.player.getSign();
         this.player.setPosition(new Point(x1,y1));
 
@@ -72,8 +72,9 @@ public class Board {
             Random R_column = new Random();
 
             //we put the enemy on the board
-            int x = R_line.nextInt(SIZE);
-            int y = R_column.nextInt(SIZE);
+            int x = R_line.nextInt(SIZE - 2) + 1;
+            int y = R_column.nextInt(SIZE - 2) + 1;
+
             this.m_2DBoard[x][y] = a.getSign();
 
             //we keep track of this enemy's position
@@ -86,13 +87,13 @@ public class Board {
             Obstacle o = new Obstacle();
 
             //we randomize the position of our obstacle
-            Random R_line = new Random();
-            Random R_column = new Random();
+            Random R_line2 = new Random();
+            Random R_column2 = new Random();
 
             //we put the obstacle on the board
             //if this position is taken by an enemy, the enemy dies and the obstacle takes its place
-            int x = R_line.nextInt(SIZE);
-            int y = R_column.nextInt(SIZE);
+            int x = R_line2.nextInt(SIZE - 2) + 1;
+            int y = R_column2.nextInt(SIZE - 2) + 1;
             this.m_2DBoard[x][y] = o.getSign();
 
             o.setPosition(new Point(x,y));
@@ -113,8 +114,26 @@ public class Board {
         return 0; //there is an issue -> prepare an error message
     }
 
-    void moveEnemies(){ //equivalent to moveAnimals
+    void moveEnemies(){
+        //we go through the board
+        for(int i = 0; i < this.SIZE; i++){
+            for(int j = 0; j < this.SIZE; j++){
+                if(Objects.equals(this.m_2DBoard[i][j], "X")){ //if there is an enemy printed
+                    this.m_2DBoard[i][j] = " "; //we take it off the board
+                }
+            }
+        }
 
+        //We make all enemies move in the player's direction
+        for(Enemy e : this.m_enemies){
+            e.moveEnemy();
+        }
+
+        //we go through our enemies that moved
+        for(Enemy e : this.m_enemies){
+            //we print them on the board at their new positions
+            m_2DBoard[e.getPosition().x][e.getPosition().y] = e.getSign();
+        }
 
     }
 
@@ -123,7 +142,7 @@ public class Board {
         //we go through our board
         for (String[] strings : m_2DBoard) {
             for (int j = 0; j < m_2DBoard.length; j++) {
-                if (Objects.equals(strings[j], "*")) { //if there is an animal
+                if (Objects.equals(strings[j], "X")) { //if there is an enemy
                     EnemiesLeft++; //we increase our number of animals left
                 }
             }
@@ -131,24 +150,27 @@ public class Board {
         return EnemiesLeft;
     }
 
-    void MovesP(){
-        Point oldP= this.player.getPosition();
+    void MovesP(){ //to move the player on the board
+        this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= " ";
         try {
             this.player.movePlayer();
+            this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= this.player.sign;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.m_2DBoard[oldP.x][oldP.y]="";
-        this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= this.player.sign;
+
     }
 
     void playGame() throws IOException {
-        int EnemiesLeft = this.checkNumberOfEnemies();
-        boolean isGameOver=false;
-        while (isGameOver == false){
-            //System.out.println(isGameOver);
-            MovesP();
-            displayBoard();
+        int EnemiesLeft;
+        boolean isGameOver = false;
+        while (!isGameOver){
+
+            this.MovesP();
+            this.moveEnemies();
+            this.displayBoard();
+
+            EnemiesLeft = this.checkNumberOfEnemies();
             if(EnemiesLeft == 0){
                 System.out.println("The game is over, you killed all the enemies. Congratulations!");
                 isGameOver=true;

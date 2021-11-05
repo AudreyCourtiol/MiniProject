@@ -19,7 +19,7 @@ public class Enemy {
     }
 
     String isDead(){
-        this.sign = "_";
+        this.sign = " ";
         return this.sign;
     }
 
