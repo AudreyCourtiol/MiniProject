@@ -1,6 +1,7 @@
 package com.company;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
@@ -130,11 +131,19 @@ public class Board {
         return EnemiesLeft;
     }
 
-    void playGame(){
+    void playGame() throws IOException {
         int EnemiesLeft = this.checkNumberOfEnemies();
-        if(EnemiesLeft == 0){
-            System.out.println("The game is over, you killed all the enemies. Congratulations!");
+        boolean isGameOver=false;
+        while (isGameOver == false){
+            //System.out.println(isGameOver);
+            player.movePlayer();
+            displayBoard();
+            if(EnemiesLeft == 0){
+                System.out.println("The game is over, you killed all the enemies. Congratulations!");
+                isGameOver=true;
+            }
         }
+
     }
 }
 

@@ -1,9 +1,10 @@
 package com.company;
+import java.util.Scanner;
 
 import java.awt.*;
-import java.util.Random;
 
 public class Player {
+    Scanner in = new Scanner(System.in);
     String sign;
     Point position = new Point();
 
@@ -27,22 +28,20 @@ public class Player {
         //move the player according to the key the player clicked on the keyboard
 
         System.out.println("Where do you want to go? ");
-        //char input;
-        //input= (char) System.in.read();
+        String input;
+        input= in.nextLine();
 
-        int ascii;
-        ascii= System.in.read();
-        switch (ascii){
-            case 24:    //up
+        switch (input){
+            case "w":    //up
                 this.setPosition(new Point((int) this.getPosition().getX(), (int) this.getPosition().getY()+1));
                 break;
-            case 25:    //down
+            case "s":    //down
                 this.setPosition(new Point((int) this.getPosition().getX(), (int) this.getPosition().getY()-1));
                 break;
-            case 26:    //right
+            case "d":    //right
                 this.setPosition(new Point((int) this.getPosition().getX()+1, (int) this.getPosition().getY()));
                 break;
-            case 27:    //left
+            case "a":    //left
                 this.setPosition(new Point((int) this.getPosition().getX()-1, (int) this.getPosition().getY()));
                 break;
 
