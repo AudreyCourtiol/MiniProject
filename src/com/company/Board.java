@@ -151,10 +151,28 @@ public class Board {
     }
 
     void MovesP(){ //to move the player on the board
+        Point oldPlayer=new Point(this.player.getPosition().x,this.player.getPosition().y);
         this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= " ";
+        int test=1;
         try {
-            this.player.movePlayer();
-            this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= this.player.sign;
+            while (test!=0)
+            {
+                this.player.movePlayer();
+                System.out.println(test);
+                if (((this.player.getPosition().x >0) && (this.player.getPosition().x <11)) && ((this.player.getPosition().y>0) && (this.player.getPosition().y<11)))
+                {
+                    this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= this.player.sign;
+                    test=0;
+                    System.out.println(test);
+                }
+                else
+                {
+                    System.out.println("Out of gameboard try again");
+                    this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= " ";
+                    this.m_2DBoard[oldPlayer.x][oldPlayer.y]= this.player.sign;
+                    test=1;
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
