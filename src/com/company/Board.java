@@ -124,17 +124,37 @@ public class Board {
             }
         }
 
+        ArrayList<Enemy> toDelete = new ArrayList<>();
+
         //We make all enemies move in the player's direction
         for(Enemy e : this.m_enemies){
-            e.moveEnemy();
+            Point oldPos = e.getPosition(); //we keep the current position
+            Point potentialNewPos = e.moveEnemy(); //we get the next position the enemy could go to
+
+            //If the position is NOT on a border, we show the enemy on the board at its new position
+            if (((potentialNewPos.x >0) && (potentialNewPos.x <11)) && ((potentialNewPos.y>0) && (potentialNewPos.y<11)))
+            {
+                if(Objects.equals(this.m_2DBoard[potentialNewPos.x][potentialNewPos.y], "#")){ //if there is an obstacle the enemy dies
+                    toDelete.add(e); //we plan to delete the enemy
+                } else{
+                    e.setPosition(potentialNewPos); //the enemy is officially there
+                    this.m_2DBoard[e.getPosition().x][e.getPosition().y]= e.getSign(); //we draw it on the board
+                }
+            }
+            else //if new pos is a border
+            {
+                this.m_2DBoard[oldPos.x][oldPos.y]= e.getSign(); //we redraw the enemy where it was before and it doesn't move
+            }
         }
 
-        //we go through our enemies that moved
-        for(Enemy e : this.m_enemies){
-            //we print them on the board at their new positions
-            m_2DBoard[e.getPosition().x][e.getPosition().y] = e.getSign();
+        //If an enemy has been added to toDelete, we remove it from the list of enemies using an iterator
+        Iterator success = this.m_enemies.iterator();
+        while(success.hasNext()) {
+            Enemy elem = (Enemy) success.next();
+            if (toDelete.contains(elem)) {
+                success.remove();
+            }
         }
-
     }
 
     Integer checkNumberOfEnemies(){ //The game ends if there are no more enemies
@@ -151,21 +171,23 @@ public class Board {
     }
 
     void MovesP(){ //to move the player on the board
-        Point oldPlayer=new Point(this.player.getPosition().x,this.player.getPosition().y);
-        this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= " ";
+        Point oldPlayer=new Point(this.player.getPosition().x,this.player.getPosition().y); //we store the current position of the player
+        this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= " "; //we set that position as empty on the board
         int test=1;
         try {
             while (test!=0)
             {
-                this.player.movePlayer();
+                this.player.movePlayer(); //move the player
                 System.out.println(test);
+
+                //If the position is NOT on a border, we show the player on the board at its new position
                 if (((this.player.getPosition().x >0) && (this.player.getPosition().x <11)) && ((this.player.getPosition().y>0) && (this.player.getPosition().y<11)))
                 {
                     this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= this.player.sign;
                     test=0;
                     System.out.println(test);
                 }
-                else
+                else //if new pos is a border
                 {
                     System.out.println("Out of gameboard try again");
                     this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= " ";
@@ -186,6 +208,14 @@ public class Board {
 
             this.MovesP();
             this.moveEnemies();
+            for(Enemy e : this.m_enemies){
+                if(this.player.getPosition() == e.getPosition()) { //if the player and an enemy are on the same position
+                    //the player dies, game is over
+                    System.out.println("Game over! An enemy killed you.");
+                    isGameOver = true;
+                }
+            }
+
             this.displayBoard();
 
             EnemiesLeft = this.checkNumberOfEnemies();
