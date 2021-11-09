@@ -3,7 +3,6 @@ package com.company;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Objects;
 import java.util.Random;
 
@@ -135,13 +134,7 @@ public class Board {
         }
 
         //If an enemy has been added to toDelete, we remove it from the list of enemies using an iterator
-        Iterator success = this.m_enemies.iterator();
-        while(success.hasNext()) {
-            Enemy elem = (Enemy) success.next();
-            if (toDelete.contains(elem)) {
-                success.remove();
-            }
-        }
+        this.m_enemies.removeIf(toDelete::contains);
     }
 
     Integer checkNumberOfEnemies(){ //The game ends if there are no more enemies
@@ -181,7 +174,6 @@ public class Board {
                     System.out.println("Out of gameboard try again");
                     this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= " ";
                     this.m_2DBoard[oldPlayer.x][oldPlayer.y]= this.player.sign;
-                    test=1;
                 }
             }
         } catch (IOException e) {
@@ -225,7 +217,7 @@ public class Board {
                 play=false;
             }
         }
-        if(this.player.win==true)
+        if(this.player.win)
             System.out.println("You won congratulations!");
         else
             System.out.println("LOSER!!");
