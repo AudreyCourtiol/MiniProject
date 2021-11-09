@@ -178,14 +178,12 @@ public class Board {
             while (test!=0)
             {
                 this.player.movePlayer(); //move the player
-                System.out.println(test);
 
                 //If the position is NOT on a border, we show the player on the board at its new position
                 if (((this.player.getPosition().x >0) && (this.player.getPosition().x <11)) && ((this.player.getPosition().y>0) && (this.player.getPosition().y<11)))
                 {
                     this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= this.player.sign;
                     test=0;
-                    System.out.println(test);
                 }
                 else //if new pos is a border
                 {
@@ -203,35 +201,39 @@ public class Board {
 
     void playGame() throws IOException {
         int EnemiesLeft;
-        boolean isGameOver = false;
-        while (!isGameOver){
-
+        boolean play=true;
+        while (play){
             this.MovesP();
             this.moveEnemies();
             for(Enemy e : this.m_enemies){
                 if(this.player.getPosition() == e.getPosition()) { //if the player and an enemy are on the same position
                     //the player dies, game is over
                     System.out.println("Game over! An enemy killed you.");
-                    isGameOver = true;
+                    this.player.win = false;
+                    play=false;
                 }
             }
             for(Obstacle o : m_obstacles){
                 if(this.player.getPosition() == o.getPosition()) { //if the player and an obstacle are on the same position
                     //the player dies, game is over
                     System.out.println("Game over! You walked into an obstacle and died.");
-                    isGameOver = true;
+                    this.player.win = false;
+                    play=false;
                 }
             }
 
             this.displayBoard();
-
-            EnemiesLeft = this.checkNumberOfEnemies();
+            EnemiesLeft= this.checkNumberOfEnemies();
             if(EnemiesLeft == 0){
                 System.out.println("The game is over, you killed all the enemies. Congratulations!");
-                isGameOver=true;
+                this.player.win=true;
+                play=false;
             }
         }
-
+        if(this.player.win==true)
+            System.out.println("You won congratulations!");
+        else
+            System.out.println("LOSER!!");
     }
 }
 

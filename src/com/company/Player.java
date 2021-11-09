@@ -7,6 +7,7 @@ public class Player {
     Scanner in = new Scanner(System.in);
     String sign;
     Point position = new Point();
+    boolean win=true;
 
     public Player(){
         this.sign = "A";
