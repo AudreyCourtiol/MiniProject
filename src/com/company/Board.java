@@ -196,7 +196,9 @@ public class Board {
         while (play){
             this.MovesP();
             this.moveEnemies();
+
             for(Enemy e : this.m_enemies){
+
                 if(this.player.getPosition() == e.getPosition()) { //if the player and an enemy are on the same position
                     //the player dies, game is over
                     System.out.println("Game over! An enemy killed you.");
@@ -204,6 +206,8 @@ public class Board {
                     play=false;
                 }
             }
+
+
             for(Obstacle o : m_obstacles){
                 if(this.player.getPosition() == o.getPosition()) { //if the player and an obstacle are on the same position
                     //the player dies, game is over

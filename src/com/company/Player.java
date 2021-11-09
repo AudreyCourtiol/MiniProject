@@ -9,9 +9,12 @@ public class Player {
     Point position = new Point();
     boolean win=true;
     boolean isJumping = false;
+    int numberJumps;
 
     public Player(){
+
         this.sign = "A";
+        this.numberJumps = 0;
     }
 
     String getSign(){return this.sign; }
@@ -50,6 +53,11 @@ public class Player {
                 break;
             case "j": //jump
                 this.isJumping = true;
+                this.numberJumps++;
+                if(this.numberJumps >= 5){
+                    System.out.println("You can't jump anymore. You have used your 5 jumps");
+                    this.isJumping = false;
+                }
                 break;
         }
 
