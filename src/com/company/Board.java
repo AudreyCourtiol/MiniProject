@@ -199,7 +199,7 @@ public class Board {
 
             for(Enemy e : this.m_enemies){
 
-                if(this.player.getPosition() == e.getPosition()) { //if the player and an enemy are on the same position
+                if(this.player.position.equals(e.getPosition())) { //if the player and an enemy are on the same position
                     //the player dies, game is over
                     System.out.println("Game over! An enemy killed you.");
                     this.player.win = false;
@@ -209,7 +209,7 @@ public class Board {
 
 
             for(Obstacle o : m_obstacles){
-                if(this.player.getPosition() == o.getPosition()) { //if the player and an obstacle are on the same position
+                if(this.player.position.equals(o.getPosition())){ //if the player and an obstacle are on the same position
                     //the player dies, game is over
                     System.out.println("Game over! You walked into an obstacle and died.");
                     this.player.win = false;
