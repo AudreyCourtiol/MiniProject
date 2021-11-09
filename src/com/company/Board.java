@@ -122,14 +122,15 @@ public class Board {
             {
                 if(Objects.equals(this.m_2DBoard[potentialNewPos.x][potentialNewPos.y], "#")){ //if there is an obstacle the enemy dies
                     toDelete.add(e); //we plan to delete the enemy
-                } else{
+                }
+                else{
                     e.setPosition(potentialNewPos); //the enemy is officially there
                     this.m_2DBoard[e.getPosition().x][e.getPosition().y]= e.getSign(); //we draw it on the board
                 }
             }
             else //if new pos is a border
             {
-                this.m_2DBoard[oldPos.x][oldPos.y]= e.getSign(); //we redraw the enemy where it was before and it doesn't move
+                this.m_2DBoard[oldPos.x][oldPos.y]= e.getSign(); //we redraw the enemy where it was before, and it doesn't move
             }
         }
 
@@ -164,14 +165,15 @@ public class Board {
                 if(this.player.getIsJumping()){
                     this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= " ";
 
-                } else if (((this.player.getPosition().x >0) && (this.player.getPosition().x <11)) && ((this.player.getPosition().y>0) && (this.player.getPosition().y<11)))
+                }
+                else if (((this.player.getPosition().x >0) && (this.player.getPosition().x <11)) && ((this.player.getPosition().y>0) && (this.player.getPosition().y<11)))
                 { //If the position is NOT on a border, we show the player on the board at its new position
                     this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= this.player.sign;
                     test=0;
                 }
                 else //if new pos is a border
                 {
-                    System.out.println("Out of gameboard try again");
+                    System.out.println("Out of game board try again");
                     this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= " ";
                     this.m_2DBoard[oldPlayer.x][oldPlayer.y]= this.player.sign;
                 }
@@ -186,6 +188,7 @@ public class Board {
         int EnemiesLeft;
         boolean play=true;
         while (play){
+            this.displayBoard();
             this.MovesP();
             this.moveEnemies();
 
@@ -199,7 +202,6 @@ public class Board {
                 }
             }
 
-
             for(Obstacle o : m_obstacles){
                 if(this.player.position.equals(o.getPosition())){ //if the player and an obstacle are on the same position
                     //the player dies, game is over
@@ -209,7 +211,6 @@ public class Board {
                 }
             }
 
-            this.displayBoard();
             EnemiesLeft= this.checkNumberOfEnemies();
             if(EnemiesLeft == 0){
                 System.out.println("The game is over, you killed all the enemies. Congratulations!");
