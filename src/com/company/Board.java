@@ -101,19 +101,6 @@ public class Board {
         }
     }
 
-    Integer isPositionOccupied(Point pos){
-        if(!Objects.equals(this.m_2DBoard[pos.x][pos.y], "_")){ //if the position is occupied
-            if(Objects.equals(this.m_2DBoard[pos.x][pos.y], "X")){ //if it's an obstacle
-                return 2;
-            } else if(Objects.equals(this.m_2DBoard[pos.x][pos.y], "*")){ //if it's an enemy
-                return 3;
-            }
-        }else{ //else if it's empty
-            return 1;
-        }
-        return 0; //there is an issue -> prepare an error message
-    }
-
     void moveEnemies(){
         //we go through the board
         for(int i = 0; i < this.SIZE; i++){
@@ -174,14 +161,18 @@ public class Board {
         Point oldPlayer=new Point(this.player.getPosition().x,this.player.getPosition().y); //we store the current position of the player
         this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= " "; //we set that position as empty on the board
         int test=1;
+
         try {
             while (test!=0)
             {
                 this.player.movePlayer(); //move the player
 
-                //If the position is NOT on a border, we show the player on the board at its new position
-                if (((this.player.getPosition().x >0) && (this.player.getPosition().x <11)) && ((this.player.getPosition().y>0) && (this.player.getPosition().y<11)))
-                {
+                //if the player is jumping, we just jump for turn this
+                if(this.player.getIsJumping()){
+                    this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= " ";
+
+                } else if (((this.player.getPosition().x >0) && (this.player.getPosition().x <11)) && ((this.player.getPosition().y>0) && (this.player.getPosition().y<11)))
+                { //If the position is NOT on a border, we show the player on the board at its new position
                     this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= this.player.sign;
                     test=0;
                 }

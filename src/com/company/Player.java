@@ -8,6 +8,7 @@ public class Player {
     String sign;
     Point position = new Point();
     boolean win=true;
+    boolean isJumping = false;
 
     public Player(){
         this.sign = "A";
@@ -15,6 +16,7 @@ public class Player {
 
     String getSign(){return this.sign; }
     Point getPosition(){return this.position; }
+    Boolean getIsJumping(){return this.isJumping; }
 
     void setPosition(Point a){
         this.position.setLocation(a);
@@ -28,6 +30,7 @@ public class Player {
     void movePlayer()throws java.io.IOException{
         //move the player according to the key the player clicked on the keyboard
 
+        this.isJumping = false; //we put the player back on the board
         System.out.println("Where do you want to go? ");
         String input;
         input= in.nextLine();
@@ -45,7 +48,9 @@ public class Player {
             case "w":    //up
                 this.setPosition(new Point((int) this.getPosition().getX()-1, (int) this.getPosition().getY()));
                 break;
-
+            case "j": //jump
+                this.isJumping = true;
+                break;
         }
 
     }
