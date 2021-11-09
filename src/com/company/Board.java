@@ -215,6 +215,13 @@ public class Board {
                     isGameOver = true;
                 }
             }
+            for(Obstacle o : m_obstacles){
+                if(this.player.getPosition() == o.getPosition()) { //if the player and an obstacle are on the same position
+                    //the player dies, game is over
+                    System.out.println("Game over! You walked into an obstacle and died.");
+                    isGameOver = true;
+                }
+            }
 
             this.displayBoard();
 
