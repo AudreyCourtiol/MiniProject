@@ -174,7 +174,7 @@ public class Board {
                 else //if new pos is a border
                 {
                     System.out.println("Out of game board try again");
-                    this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= " ";
+                    this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= "*";
                     this.m_2DBoard[oldPlayer.x][oldPlayer.y]= this.player.sign;
                 }
             }
@@ -188,9 +188,9 @@ public class Board {
         int EnemiesLeft;
         boolean play=true;
         while (play){
-            this.displayBoard();
             this.MovesP();
             this.moveEnemies();
+            this.displayBoard();
 
             for(Enemy e : this.m_enemies){
 
@@ -202,6 +202,7 @@ public class Board {
                 }
             }
 
+
             for(Obstacle o : m_obstacles){
                 if(this.player.position.equals(o.getPosition())){ //if the player and an obstacle are on the same position
                     //the player dies, game is over
@@ -210,6 +211,7 @@ public class Board {
                     play=false;
                 }
             }
+
 
             EnemiesLeft= this.checkNumberOfEnemies();
             if(EnemiesLeft == 0){

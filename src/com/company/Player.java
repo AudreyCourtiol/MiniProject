@@ -37,28 +37,34 @@ public class Player {
         System.out.println("Where do you want to go? ");
         String input;
         input= in.nextLine();
-
-        switch (input){
-            case "d":    //right
-                this.setPosition(new Point((int) this.getPosition().getX(), (int) this.getPosition().getY()+1));
-                break;
-            case "a":    //left
-                this.setPosition(new Point((int) this.getPosition().getX(), (int) this.getPosition().getY()-1));
-                break;
-            case "s":    //down
-                this.setPosition(new Point((int) this.getPosition().getX()+1, (int) this.getPosition().getY()));
-                break;
-            case "w":    //up
-                this.setPosition(new Point((int) this.getPosition().getX()-1, (int) this.getPosition().getY()));
-                break;
-            case "j": //jump
-                this.isJumping = true;
-                this.numberJumps++;
-                if(this.numberJumps >= 5){
-                    System.out.println("You can't jump anymore. You have used your 5 jumps");
-                    this.isJumping = false;
-                }
-                break;
+        boolean menu=true;
+        while (menu == true) {
+            switch (input) {
+                case "d":    //right
+                    this.setPosition(new Point((int) this.getPosition().getX(), (int) this.getPosition().getY() + 1));
+                    break;
+                case "a":    //left
+                    this.setPosition(new Point((int) this.getPosition().getX(), (int) this.getPosition().getY() - 1));
+                    break;
+                case "s":    //down
+                    this.setPosition(new Point((int) this.getPosition().getX() + 1, (int) this.getPosition().getY()));
+                    break;
+                case "w":    //up
+                    this.setPosition(new Point((int) this.getPosition().getX() - 1, (int) this.getPosition().getY()));
+                    break;
+                case "j": //jump
+                    this.isJumping = true;
+                    this.numberJumps++;
+                    if (this.numberJumps >= 5) {
+                        System.out.println("You can't jump anymore. You have used your 5 jumps");
+                        this.isJumping = false;
+                    }
+                    break;
+                default:
+                    menu = true;
+                    System.out.println("You didn't click the correct letter, try again");
+                    break;
+            }
         }
 
     }
