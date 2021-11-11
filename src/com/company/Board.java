@@ -125,6 +125,7 @@ public class Board {
                 }
                 else{
                     e.setPosition(potentialNewPos); //the enemy is officially there
+                    System.out.println("new pos = " + e.position.x + ", " + e.position.y);
                     this.m_2DBoard[e.getPosition().x][e.getPosition().y]= e.getSign(); //we draw it on the board
                 }
             }
