@@ -22,6 +22,8 @@ public class Enemy {
     Point moveEnemy(){ //move the enemies in the direction of the player
         Point playerPos = this.player.getPosition();
 
+        //float direction = atan2(playerPos.y - this.getPosition().y, playerPos.x - this.getPosition().x);
+
         //We select the position the enemy needs to move to
 
         if(playerPos.getX() < this.position.getX() && playerPos.getY() == this.position.getY()){ //if the player is to the strict left of the enemy moves one field to the left
