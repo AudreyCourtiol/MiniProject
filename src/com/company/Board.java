@@ -130,6 +130,7 @@ public class Board {
                 }
                 else{
                     e.setPosition(potentialNewPos); //the enemy is officially there
+                    System.out.println("new pos = " + e.position.x + ", " + e.position.y);
                     this.m_2DBoard[e.getPosition().x][e.getPosition().y]= e.getSign(); //we draw it on the board
                 }
             }
@@ -191,12 +192,15 @@ public class Board {
 
     void playGame() throws IOException {
         int EnemiesLeft;
-        boolean play=true;
-        while (play){
-            this.MovesP();
-            this.moveEnemies();
-            this.displayBoard();
+        boolean play=true; //this tells us if the game is going on. When it stops being true, the game is over
 
+        while (play){ //for each round until the end of the game
+
+            this.MovesP(); //We move the player
+            this.moveEnemies(); //we move the enemies
+            this.displayBoard(); //we display the board
+
+            //We check if the player encountered an enemy. If they did, they lost the game and it's over
             for(Enemy e : this.m_enemies){
 
                 if(this.player.position.equals(e.getPosition())) { //if the player and an enemy are on the same position
@@ -208,6 +212,7 @@ public class Board {
             }
 
 
+            //We check if the player encountered an obstacle. If they did, they lost the game and it's over
             for(Obstacle o : m_obstacles){
                 if(this.player.position.equals(o.getPosition())){ //if the player and an obstacle are on the same position
                     //the player dies, game is over
@@ -218,13 +223,16 @@ public class Board {
             }
 
 
+            //We check if there are enemies left
             EnemiesLeft= this.checkNumberOfEnemies();
-            if(EnemiesLeft == 0){
+            if(EnemiesLeft == 0){ //If there is none left, the player won the game
                 System.out.println("The game is over, you killed all the enemies. Congratulations!");
                 this.player.win=true;
                 play=false;
             }
         }
+
+        //Message to print out depending on the outcome of the game
         if(this.player.win)
             System.out.println("You won congratulations!");
         else
