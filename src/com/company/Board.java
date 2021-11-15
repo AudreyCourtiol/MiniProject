@@ -63,8 +63,13 @@ public class Board {
         this.m_2DBoard[x1][y1] = this.player.getSign();
         this.player.setPosition(new Point(x1,y1));
 
+
+        System.out.println(this.player.getPosition().x+ ", "+ this.player.getPosition().y);
+
+
         for(int i = 0; i < this.nbOfEnemies; i++){
             Enemy a = new Enemy();
+            a.player = this.player; //we connect the enòy plqyer to the gqme player
 
             //we randomize the position of our enemy
             Random R_line = new Random();
