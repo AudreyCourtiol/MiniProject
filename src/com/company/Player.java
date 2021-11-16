@@ -9,7 +9,7 @@ public class Player {
     Point position = new Point();
     boolean win=true;
     boolean isJumping = false;
-    int numberJumps=0;
+    int numberJumps;
 
     public Player(){
 
@@ -19,7 +19,6 @@ public class Player {
 
     String getSign(){return this.sign; }
     Point getPosition(){return this.position; }
-    Boolean getIsJumping(){return this.isJumping; }
 
     void setPosition(Point a){
         this.position.setLocation(a);

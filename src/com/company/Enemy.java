@@ -27,10 +27,10 @@ public class Enemy {
         else if((this.player.getPosition().x > this.getPosition().x) && (this.player.getPosition().y == this.getPosition().y)){ //if the player is to the strict right of the enemy moves one field to the right
             return new Point((int) this.position.getX() +1, (int) this.position.getY());
         }
-        else if((this.player.getPosition().y> this.getPosition().y) && (this.player.getPosition().x == this.getPosition().x)){ //if the player is to the strict upway of the enemy moves one field up
+        else if((this.player.getPosition().y> this.getPosition().y) && (this.player.getPosition().x == this.getPosition().x)){ //if the player is to the strict up way of the enemy moves one field up
             return new Point((int) this.position.getX(), (int) this.position.getY() + 1);
         }
-        else if(this.player.getPosition().y < this.getPosition().y && (this.player.getPosition().x== this.getPosition().x)) { //if the player is to the strict downway of the enemy moves one field down
+        else if(this.player.getPosition().y < this.getPosition().y && (this.player.getPosition().x== this.getPosition().x)) { //if the player is to the strict down way of the enemy moves one field down
             return new Point((int) this.position.getX(), (int) this.position.getY() - 1);
         }
         else if((this.player.getPosition().y > this.getPosition().y) && (this.player.getPosition().x > this.getPosition().x)) { //if the player is to the up right of the enemy moves one field up right
