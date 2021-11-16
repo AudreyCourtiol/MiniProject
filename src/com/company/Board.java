@@ -62,14 +62,9 @@ public class Board {
         int y1 = R_start_y.nextInt(SIZE - 2) + 1;
         this.m_2DBoard[x1][y1] = this.player.getSign();
         this.player.setPosition(new Point(x1,y1));
-
-
-        System.out.println(this.player.getPosition().x+ ", "+ this.player.getPosition().y);
-
-
         for(int i = 0; i < this.nbOfEnemies; i++){
             Enemy a = new Enemy();
-            a.player = this.player; //we connect the enòy plqyer to the gqme player
+            a.player = this.player; //we connect the enemy player to the game player
 
             //we randomize the position of our enemy
             Random R_line = new Random();
@@ -130,7 +125,6 @@ public class Board {
                 }
                 else{
                     e.setPosition(potentialNewPos); //the enemy is officially there
-                    System.out.println("new pos = " + e.position.x + ", " + e.position.y);
                     this.m_2DBoard[e.getPosition().x][e.getPosition().y]= e.getSign(); //we draw it on the board
                 }
             }
@@ -161,19 +155,12 @@ public class Board {
         Point oldPlayer=new Point(this.player.getPosition().x,this.player.getPosition().y); //we store the current position of the player
         this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= " "; //we set that position as empty on the board
         int test=1;
-
         try {
             while (test!=0)
             {
                 this.player.movePlayer(); //move the player
-
-                //if the player is jumping, we just jump for turn this
-                if(this.player.getIsJumping()){
-                    this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= " ";
-
-                }
-                else if (((this.player.getPosition().x >0) && (this.player.getPosition().x <11)) && ((this.player.getPosition().y>0) && (this.player.getPosition().y<11)))
-                { //If the position is NOT on a border, we show the player on the board at its new position
+                //If the position is NOT on a border, we show the player on the board at its new position
+                if (((this.player.getPosition().x >0) && (this.player.getPosition().x <11)) && ((this.player.getPosition().y>0) && (this.player.getPosition().y<11))) {
                     this.m_2DBoard[this.player.getPosition().x][this.player.getPosition().y]= this.player.sign;
                     test=0;
                 }
@@ -200,25 +187,29 @@ public class Board {
             this.moveEnemies(); //we move the enemies
             this.displayBoard(); //we display the board
 
-            //We check if the player encountered an enemy. If they did, they lost the game and it's over
+            //We check if the player encountered an enemy. If they did, they lost the game, and it's over
             for(Enemy e : this.m_enemies){
 
                 if(this.player.position.equals(e.getPosition())) { //if the player and an enemy are on the same position
-                    //the player dies, game is over
-                    System.out.println("Game over! An enemy killed you.");
-                    this.player.win = false;
-                    play=false;
+                    if(!this.player.isJumping) {
+                        //the player dies, game is over
+                        System.out.println("Game over! An enemy killed you.");
+                        this.player.win = false;
+                        play = false;
+                    }
                 }
             }
 
 
-            //We check if the player encountered an obstacle. If they did, they lost the game and it's over
+            //We check if the player encountered an obstacle. If they did, they lost the game, and it's over
             for(Obstacle o : m_obstacles){
-                if(this.player.position.equals(o.getPosition())){ //if the player and an obstacle are on the same position
-                    //the player dies, game is over
-                    System.out.println("Game over! You walked into an obstacle and died.");
-                    this.player.win = false;
-                    play=false;
+                if(this.player.position.equals(o.getPosition())) { //if the player and an obstacle are on the same position
+                    if (!this.player.isJumping) {
+                        //the player dies, game is over
+                        System.out.println("Game over! You walked into an obstacle and died.");
+                        this.player.win = false;
+                        play = false;
+                    }
                 }
             }
 

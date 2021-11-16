@@ -9,7 +9,7 @@ public class Player {
     Point position = new Point();
     boolean win=true;
     boolean isJumping = false;
-    int numberJumps;
+    int numberJumps=0;
 
     public Player(){
 
@@ -51,7 +51,7 @@ public class Player {
                     this.setPosition(new Point((int) this.getPosition().getX() - 1, (int) this.getPosition().getY()));
                     menu = false;
                 }
-                case "j" -> { //jump
+                case "j" -> {    //jump
                     this.isJumping = true;
                     this.numberJumps++;
                     if (this.numberJumps >= 5) {
